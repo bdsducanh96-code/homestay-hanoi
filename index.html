@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Homestay Hà Nội</title>
+</head>
+
+<body>
+
+<h2>🏡 Homestay Hà Nội</h2>
+<p>Điền nhanh thông tin để kiểm tra phòng còn trống</p>
+
+<input id="ten" placeholder="Tên của bạn"><br><br>
+<input id="ngay" placeholder="Ngày checkin"><br><br>
+<input id="khach" placeholder="Số khách"><br><br>
+
+<button onclick="guiZalo()">Kiểm tra phòng</button>
+
+<script>
+function guiZalo(){
+
+var ten=document.getElementById("ten").value;
+var ngay=document.getElementById("ngay").value;
+var khach=document.getElementById("khach").value;
+
+var text="Tôi tên "+ten+
+", muốn đặt homestay ngày "+ngay+
+" cho "+khach+" người";
+
+var url="https://zalo.me/0342975298?text="+encodeURIComponent(text);
+
+window.location.href=url;
+
+}
+</script>
+
+</body>
+</html>

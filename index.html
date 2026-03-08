@@ -3,36 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <title>Homestay Hà Nội</title>
+
+<style>
+body{
+font-family:Arial;
+max-width:500px;
+margin:auto;
+padding:40px;
+}
+
+input,button{
+width:100%;
+padding:12px;
+margin-top:10px;
+font-size:16px;
+}
+
+button{
+background:#0068ff;
+color:white;
+border:none;
+}
+</style>
+
 </head>
 
 <body>
 
-<h2>🏡 Homestay Hà Nội</h2>
-<p>Điền nhanh thông tin để kiểm tra phòng còn trống</p>
+<h1>🏡 Homestay Hà Nội</h1>
+<p>Điền nhanh để kiểm tra phòng trống</p>
 
-<input id="ten" placeholder="Tên của bạn"><br><br>
-<input id="ngay" placeholder="Ngày checkin"><br><br>
-<input id="khach" placeholder="Số khách"><br><br>
+<input id="name" placeholder="Tên của bạn">
 
-<button onclick="guiZalo()">Kiểm tra phòng</button>
+<input id="checkin" type="date">
+
+<input id="guests" placeholder="Số khách">
+
+<button onclick="sendZalo()">Kiểm tra phòng</button>
 
 <script>
-function guiZalo(){
 
-var ten=document.getElementById("ten").value;
-var ngay=document.getElementById("ngay").value;
-var khach=document.getElementById("khach").value;
+function sendZalo(){
 
-var text="Tôi tên "+ten+
-", muốn đặt homestay ngày "+ngay+
-" cho "+khach+" người";
+let name=document.getElementById("name").value
+let checkin=document.getElementById("checkin").value
+let guests=document.getElementById("guests").value
 
-var url="https://zalo.me/0342975298?text="+encodeURIComponent(text);
+let message=`Xin chào, tôi muốn kiểm tra phòng
+Tên: ${name}
+Checkin: ${checkin}
+Số khách: ${guests}`
 
-window.location.href=url;
+let zaloLink="https://zalo.me/XXXXXXXX?text="+encodeURIComponent(message)
+
+window.location.href=zaloLink
 
 }
+
 </script>
 
 </body>
+
 </html>

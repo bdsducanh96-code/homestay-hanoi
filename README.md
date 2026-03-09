@@ -1,1 +1,1 @@
-# homestay-hanoi
+# hs-hanoi

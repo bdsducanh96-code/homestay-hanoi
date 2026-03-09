@@ -145,7 +145,9 @@ checkout:checkout,
 khach:khach,
 dem:nights
 })
-});
+})
+.then(response => response.text())
+.then(data => {
 
 let message=`Xin chào Homestay Hà Nội
 
@@ -157,7 +159,9 @@ Số đêm: ${nights}`;
 
 let url="https://zalo.me/"+zalo+"?text="+encodeURIComponent(message);
 
-window.open(url,"_blank");
+window.location.href=url;
+
+});
 
 });
 

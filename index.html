@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,8 +11,8 @@
 <style>
 
 body{
-font-family: Arial, sans-serif;
-background:#f6f7f9;
+font-family: Arial;
+background:#f7f7f7;
 margin:0;
 padding:0;
 }
@@ -18,16 +20,20 @@ padding:0;
 .container{
 max-width:420px;
 margin:auto;
-margin-top:40px;
+padding:20px;
+margin-top:30px;
+}
+
+.card{
 background:white;
 padding:25px;
-border-radius:14px;
-box-shadow:0 10px 30px rgba(0,0,0,0.1);
+border-radius:16px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
 h1{
-text-align:center;
 font-size:22px;
+text-align:center;
 margin-bottom:20px;
 }
 
@@ -41,7 +47,7 @@ input,select{
 width:100%;
 padding:12px;
 margin-top:6px;
-border-radius:8px;
+border-radius:10px;
 border:1px solid #ddd;
 font-size:16px;
 }
@@ -49,24 +55,24 @@ font-size:16px;
 button{
 width:100%;
 margin-top:20px;
-padding:14px;
-background:#ff385c;
+padding:15px;
 border:none;
-border-radius:10px;
+border-radius:12px;
+background:#ff385c;
 color:white;
-font-size:16px;
+font-size:17px;
+font-weight:bold;
 cursor:pointer;
 }
 
-button:hover{
-background:#e11d48;
+button:active{
+transform:scale(0.98);
 }
 
 .result{
 margin-top:15px;
-font-weight:bold;
 text-align:center;
-color:#333;
+font-weight:bold;
 }
 
 </style>
@@ -77,6 +83,8 @@ color:#333;
 
 <div class="container">
 
+<div class="card">
+
 <h1>Đặt phòng Homestay Hà Nội</h1>
 
 <form id="bookingForm">
@@ -84,13 +92,14 @@ color:#333;
 <label>Tên khách</label>
 <input type="text" id="ten" required>
 
-<label>Ngày Check-in</label>
+<label>Check-in</label>
 <input type="date" id="checkin" required>
 
-<label>Ngày Check-out</label>
+<label>Check-out</label>
 <input type="date" id="checkout" required>
 
 <label>Số khách</label>
+
 <select id="khach">
 <option>1</option>
 <option>2</option>
@@ -107,6 +116,8 @@ color:#333;
 
 </div>
 
+</div>
+
 <script>
 
 const API_URL="https://script.google.com/macros/s/AKfycbyKoQkT0Hdq_ixsYs03Ha1hr-nATncexSfDAn9mroSlVwZHBaEWNmdnMtAXMd_rmuPz/exec";
@@ -120,8 +131,11 @@ form.addEventListener("submit",function(e){
 e.preventDefault();
 
 let ten=document.getElementById("ten").value;
+
 let checkin=document.getElementById("checkin").value;
+
 let checkout=document.getElementById("checkout").value;
+
 let khach=document.getElementById("khach").value;
 
 let d1=new Date(checkin);
@@ -138,6 +152,7 @@ document.getElementById("ketqua").innerText="Số đêm: "+nights;
 
 fetch(API_URL,{
 method:"POST",
+mode:"no-cors",
 body:JSON.stringify({
 ten:ten,
 checkin:checkin,
@@ -145,9 +160,7 @@ checkout:checkout,
 khach:khach,
 dem:nights
 })
-})
-.then(response => response.text())
-.then(data => {
+});
 
 let message=`Xin chào Homestay Hà Nội
 
@@ -163,9 +176,8 @@ window.location.href=url;
 
 });
 
-});
-
 </script>
 
 </body>
+
 </html>

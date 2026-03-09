@@ -3,189 +3,167 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Homestay Hà Nội</title>
+
+<title>Đặt phòng Homestay Hà Nội</title>
 
 <style>
 
 body{
-font-family:Arial, sans-serif;
-background:#f5f7fb;
+font-family: Arial;
+background:#f5f5f5;
 margin:0;
+padding:0;
 }
 
 .container{
-max-width:520px;
+max-width:420px;
 margin:auto;
-padding:40px 20px;
-}
-
-.card{
 background:white;
-padding:28px;
-border-radius:14px;
-box-shadow:0 10px 30px rgba(0,0,0,0.08);
+padding:20px;
+margin-top:40px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
 h1{
-margin-top:0;
-}
-
-.subtitle{
-color:#666;
-margin-bottom:20px;
+text-align:center;
+font-size:22px;
 }
 
 label{
-font-weight:600;
-font-size:14px;
+display:block;
+margin-top:12px;
+font-weight:bold;
 }
 
-input{
+input,select{
 width:100%;
-padding:12px;
-margin-top:6px;
-margin-bottom:16px;
+padding:10px;
+margin-top:5px;
 border-radius:8px;
-border:1px solid #ddd;
+border:1px solid #ccc;
 font-size:16px;
 }
 
 button{
 width:100%;
 padding:14px;
+margin-top:18px;
+background:#ff385c;
 border:none;
-border-radius:10px;
-background:#0068ff;
 color:white;
 font-size:16px;
-font-weight:600;
+border-radius:10px;
 cursor:pointer;
 }
 
 button:hover{
-background:#0053cc;
+background:#e11d48;
 }
 
-.info{
-background:#f0f4ff;
-padding:12px;
-border-radius:8px;
-margin-bottom:16px;
-font-size:14px;
-}
-
-.error{
-color:red;
-margin-bottom:10px;
+.result{
+margin-top:15px;
+font-weight:bold;
+text-align:center;
 }
 
 </style>
-</head>
 
+</head>
 <body>
 
 <div class="container">
-<div class="card">
 
-<h1>🏡 Homestay Hà Nội</h1>
-<p class="subtitle">Kiểm tra phòng trống nhanh</p>
+<h1>Đặt phòng Homestay Hà Nội</h1>
 
-<div id="error" class="error"></div>
+<form id="bookingForm">
 
-<label>Tên của bạn</label>
-<input id="name" placeholder="Ví dụ: Nguyễn Minh">
-
-<label>Số điện thoại</label>
-<input id="phone" placeholder="Ví dụ: 0912345678">
+<label>Tên khách</label>
+<input type="text" id="ten" required>
 
 <label>Ngày check-in</label>
-<input id="checkin" type="date" onchange="calculateNights()">
+<input type="date" id="checkin" required>
 
 <label>Ngày check-out</label>
-<input id="checkout" type="date" onchange="calculateNights()">
-
-<div class="info">
-Số đêm: <b id="nights">0</b>
-</div>
+<input type="date" id="checkout" required>
 
 <label>Số khách</label>
-<input id="guests" type="number" placeholder="Ví dụ: 2">
+<select id="khach">
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+</select>
 
-<button onclick="submitBooking()">Kiểm tra phòng qua Zalo</button>
+<div class="result" id="ketqua"></div>
 
-</div>
+<button type="submit">Kiểm tra phòng</button>
+
+</form>
+
 </div>
 
 <script>
 
-const ZALO_NUMBER="YOUR_ZALO_NUMBER"
-const API_URL="YOUR_APPS_SCRIPT_URL"
+const API_URL="https://script.google.com/macros/s/AKfycbyKoQkT0Hdq_ixsYs03Ha1hr-nATncexSfDAn9mroSlVwZHBaEWNmdnMtAXMd_rmuPz/exec"; 
 
-function calculateNights(){
+const zalo="0365725659";
 
-let checkin=document.getElementById("checkin").value
-let checkout=document.getElementById("checkout").value
+const form=document.getElementById("bookingForm");
 
-if(!checkin || !checkout) return
+form.addEventListener("submit",function(e){
 
-let d1=new Date(checkin)
-let d2=new Date(checkout)
+e.preventDefault();
 
-let diff=(d2-d1)/(1000*60*60*24)
+let ten=document.getElementById("ten").value;
 
-if(diff>0){
-document.getElementById("nights").innerText=diff
-}else{
-document.getElementById("nights").innerText=0
+let checkin=document.getElementById("checkin").value;
+
+let checkout=document.getElementById("checkout").value;
+
+let khach=document.getElementById("khach").value;
+
+let d1=new Date(checkin);
+
+let d2=new Date(checkout);
+
+let nights=(d2-d1)/(1000*60*60*24);
+
+if(nights<=0){
+
+alert("Checkout phải sau Checkin");
+
+return;
+
 }
 
-}
-
-function submitBooking(){
-
-let name=document.getElementById("name").value
-let phone=document.getElementById("phone").value
-let checkin=document.getElementById("checkin").value
-let checkout=document.getElementById("checkout").value
-let guests=document.getElementById("guests").value
-let nights=document.getElementById("nights").innerText
-
-let error=document.getElementById("error")
-error.innerHTML=""
-
-if(!name||!phone||!checkin||!checkout||!guests){
-error.innerHTML="Vui lòng điền đầy đủ thông tin"
-return
-}
-
-let data={
-name:name,
-phone:phone,
-checkin:checkin,
-checkout:checkout,
-nights:nights,
-guests:guests
-}
+document.getElementById("ketqua").innerText="Số đêm: "+nights;
 
 fetch(API_URL,{
 method:"POST",
-body:JSON.stringify(data)
+body:JSON.stringify({
+ten:ten,
+checkin:checkin,
+checkout:checkout,
+khach:khach,
+dem:nights
 })
+});
 
-let message=
-"Xin chào Homestay, tôi muốn kiểm tra phòng:%0A%0A"+
-"Tên: "+name+"%0A"+
-"SĐT: "+phone+"%0A"+
-"Checkin: "+checkin+"%0A"+
-"Checkout: "+checkout+"%0A"+
-"Số đêm: "+nights+"%0A"+
-"Số khách: "+guests
+let message=`Xin chào Homestay Hà Nội
 
-let zaloLink="https://zalo.me/"+0365725659+"?text="+message
+Tên: ${ten}
+Checkin: ${checkin}
+Checkout: ${checkout}
+Số khách: ${khach}
+Số đêm: ${nights}`;
 
-window.location.href=zaloLink
+let url="https://zalo.me/"+zalo+"?text="+encodeURIComponent(message);
 
-}
+window.open(url,"_blank");
+
+});
 
 </script>
 
